@@ -124,9 +124,9 @@ class XrayDataModule(pl.LightningDataModule):
 
         self.train_dataset = torchvision.datasets.ImageFolder(os.path.join(dataset_dir+"train"),transform= transform_train)
         print(len(self.train_dataset))
-        self.train_dataset,self.val_dataset = torch.utils.data.random_split(self.train_dataset,[int(len(self.train_dataset)*0.80),int(len(self.train_dataset)*0.20]))
-        self.test_dataset = torchvision.datasets.ImageFolder(os.path.join(dataset_dir+"tesst"),transform = transform_test)
-
+        self.train_dataset,self.val_dataset = torch.utils.data.random_split(self.train_dataset,[int(len(self.train_dataset)*0.80),int(len(self.train_dataset)*0.20)])
+        self.test_dataset = torchvision.datasets.ImageFolder(os.path.join(dataset_dir+"tesst"),transform = transform_test)  
+        
 
     def __dataloader(self, split: str) -> torch.utils.data.DataLoader:
         assert split in ("train", "val", "test")
