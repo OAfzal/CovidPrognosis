@@ -12,7 +12,8 @@ import covidprognosis as cp
 import numpy as np
 import pytorch_lightning as pl
 import torch
-
+import torchvision
+from torchvision import transforms
 
 class TwoImageDataset(torch.utils.data.Dataset):
     """
@@ -58,46 +59,7 @@ def fetch_dataset(
     assert split in ("train", "val", "test")
     dataset: Union[cp.data.BaseDataset, TwoImageDataset]
 
-    # determine the dataset
-    if dataset_name == "nih":
-        assert not isinstance(dataset_dir, list)
-        dataset = cp.data.NIHChestDataset(
-            directory=dataset_dir,
-            split=split,
-            transform=transform,
-            label_list=label_list,
-            resplit=True,
-        )
-    if dataset_name == "mimic":
-        assert not isinstance(dataset_dir, list)
-        dataset = cp.data.MimicCxrJpgDataset(
-            directory=dataset_dir,
-            split=split,
-            transform=transform,
-            label_list=label_list,
-        )
-    elif dataset_name == "chexpert":
-        assert not isinstance(dataset_dir, list)
-        dataset = cp.data.CheXpertDataset(
-            directory=dataset_dir,
-            split=split,
-            transform=transform,
-            label_list=label_list,
-        )
-    elif dataset_name == "mimic-chexpert":
-        assert isinstance(dataset_dir, list)
-        dataset = cp.data.CombinedXrayDataset(
-            dataset_list=["chexpert_v1", "mimic-cxr"],
-            directory_list=dataset_dir,
-            transform_list=[transform, transform],
-            label_list=[label_list, label_list],
-            split_list=[split, split],
-        )
-    else:
-        raise ValueError(f"dataset {dataset_name} not recognized")
-
-    if two_image is True:
-        dataset = TwoImageDataset(dataset)
+    dataset = cp.data.kaggleDataset("/content/"+split)
 
     return dataset
 
@@ -146,35 +108,24 @@ class XrayDataModule(pl.LightningDataModule):
         self.batch_size = batch_size
         self.num_workers = num_workers
 
-        self.train_dataset = fetch_dataset(
-            self.dataset_name,
-            self.dataset_dir,
-            "train",
-            train_transform,
-            label_list=label_list,
-            two_image=use_two_images,
-        )
-        self.val_dataset = fetch_dataset(
-            self.dataset_name,
-            self.dataset_dir,
-            "val",
-            val_transform,
-            label_list=label_list,
-            two_image=use_two_images,
-        )
-        self.test_dataset = fetch_dataset(
-            self.dataset_name,
-            self.dataset_dir,
-            "test",
-            test_transform,
-            label_list=label_list,
-            two_image=use_two_images,
-        )
+        mean = [0.485, 0.456, 0.406]
+        std = [0.229, 0.224, 0.225]
 
-        if isinstance(self.train_dataset, TwoImageDataset):
-            self.label_list = None
-        else:
-            self.label_list = self.train_dataset.label_list
+        transform_train = transforms.Compose([
+            transforms.CenterCrop(224,224),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=mean, std=std)])
+
+        transform_test = transforms.Compose([
+            transforms.CenterCrop(224,224),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=mean, std=std)])
+
+        self.train_dataset = torchvision.dataset.ImageFoler(os.path.join(dataset_dir+"train"),transforms= transform_train)
+        self.train_dataset,self.val_dataset = torch.utils.data.random_split(self.train_dataset,[len(self.train_dataset*0.80),len(self.train_dataset*0.20)])
+        self.test_dataset = torchvision.dataset.ImageFoler(os.path.join(dataset_dir+"tesst"),transforms = transform_test)
+
 
     def __dataloader(self, split: str) -> torch.utils.data.DataLoader:
         assert split in ("train", "val", "test")
