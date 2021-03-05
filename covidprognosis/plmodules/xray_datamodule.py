@@ -122,9 +122,9 @@ class XrayDataModule(pl.LightningDataModule):
             transforms.ToTensor(),
             transforms.Normalize(mean=mean, std=std)])
 
-        self.train_dataset = torchvision.datasets.ImageFoler(os.path.join(dataset_dir+"train"),transforms= transform_train)
+        self.train_dataset = torchvision.datasets.ImageFolder(os.path.join(dataset_dir+"train"),transforms= transform_train)
         self.train_dataset,self.val_dataset = torch.utils.data.random_split(self.train_dataset,[len(self.train_dataset*0.80),len(self.train_dataset*0.20)])
-        self.test_dataset = torchvision.datasets.ImageFoler(os.path.join(dataset_dir+"tesst"),transforms = transform_test)
+        self.test_dataset = torchvision.datasets.ImageFolder(os.path.join(dataset_dir+"tesst"),transforms = transform_test)
 
 
     def __dataloader(self, split: str) -> torch.utils.data.DataLoader:
