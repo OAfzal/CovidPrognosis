@@ -78,24 +78,24 @@ def build_args(arg_defaults=None):
         else:
             raise ValueError("Unrecognized path config.")
 
-    if args.dataset_name in ("chexpert", "mimic", "mimic-chexpert"):
-        args.val_pathology_list = [
-            "Atelectasis",
-            "Cardiomegaly",
-            "Consolidation",
-            "Edema",
-            "Pleural Effusion",
-        ]
-    elif args.dataset_name == "nih":
-        args.val_pathology_list = [
-            "Atelectasis",
-            "Cardiomegaly",
-            "Consolidation",
-            "Edema",
-            "Effusion",
-        ]
-    else:
-        raise ValueError("Unrecognized dataset.")
+    # if args.dataset_name in ("chexpert", "mimic", "mimic-chexpert"):
+    #     args.val_pathology_list = [
+    #         "Atelectasis",
+    #         "Cardiomegaly",
+    #         "Consolidation",
+    #         "Edema",
+    #         "Pleural Effusion",
+    #     ]
+    # elif args.dataset_name == "nih":
+    #     args.val_pathology_list = [
+    #         "Atelectasis",
+    #         "Cardiomegaly",
+    #         "Consolidation",
+    #         "Edema",
+    #         "Effusion",
+    #     ]
+    # else:
+    #     raise ValueError("Unrecognized dataset.")
 
     # ------------
     # checkpoints
