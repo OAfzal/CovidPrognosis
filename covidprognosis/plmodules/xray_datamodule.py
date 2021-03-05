@@ -112,13 +112,13 @@ class XrayDataModule(pl.LightningDataModule):
         std = [0.229, 0.224, 0.225]
 
         transform_train = transforms.Compose([
-            transforms.CenterCrop(224,224),
+            transforms.CenterCrop((224,224)),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
             transforms.Normalize(mean=mean, std=std)])
 
         transform_test = transforms.Compose([
-            transforms.CenterCrop(224,224),
+            transforms.CenterCrop((224,224)),
             transforms.ToTensor(),
             transforms.Normalize(mean=mean, std=std)])
 
