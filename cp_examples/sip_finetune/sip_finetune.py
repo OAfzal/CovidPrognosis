@@ -131,12 +131,14 @@ class SipModule(pl.LightningModule):
         self.register_buffer("pos_weights", pos_weights)
         print(self.pos_weights)
 
+        print(self.val_pathology_list)
+
         # metrics
         self.train_acc = torch.nn.ModuleList(
-            [pl.metrics.Accuracy() for _ in val_pathology_list]
+            [pl.metrics.Accuracy() for _ in self.val_pathology_list]
         )
         self.val_acc = torch.nn.ModuleList(
-            [pl.metrics.Accuracy() for _ in val_pathology_list]
+            [pl.metrics.Accuracy() for _ in self.val_pathology_list]
         )
 
     def on_epoch_start(self):
