@@ -175,13 +175,14 @@ def cli_main(args):
     # ------------
     # model
     # ------------
-    pos_weights = fetch_pos_weights(
-        dataset_name=args.dataset_name,
-        csv=data_module.train_dataset.csv,
-        label_list=data_module.label_list,
-        uncertain_label=args.uncertain_label,
-        nan_label=args.nan_label,
-    )
+    # pos_weights = fetch_pos_weights(
+    #     dataset_name=args.dataset_name,
+    #     csv=data_module.train_dataset.csv,
+    #     label_list=data_module.label_list,
+    #     uncertain_label=args.uncertain_label,
+    #     nan_label=args.nan_label,
+    # )
+    pos_weights = None
     model = SipModule(
         arch=args.arch,
         num_classes=len(data_module.label_list),
