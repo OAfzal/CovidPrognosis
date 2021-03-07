@@ -153,6 +153,7 @@ class SipModule(pl.LightningModule):
         loss = 0
         loss = torch.nn.BCELoss()
         output = torch.argmax(output,1)
+        print(output)
         loss_num = loss(output,target)
         # for i in range(len(output)):
         #     pos_weights, _ = filter_nans(self.pos_weights, target[i])
