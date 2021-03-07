@@ -76,7 +76,7 @@ class SipModule(pl.LightningModule):
         pretrained_file = str(pretrained_file)
 
         self.label_list = label_list
-        self.val_pathology_list = val_pathology_list
+        self.val_pathology_list = ["COVID19","NORMAL","PNEUMONIA"]
         self.learning_rate = learning_rate
         self.epochs = epochs
         self.pretrained_file = pretrained_file
