@@ -151,17 +151,18 @@ class SipModule(pl.LightningModule):
     def loss(self, output, target):
         counts = 0
         loss = 0
-        for i in range(len(output)):
-            pos_weights, _ = filter_nans(self.pos_weights, target[i])
-            loss_fn = torch.nn.BCEWithLogitsLoss(
-                pos_weight=pos_weights, reduction="sum"
-            )
-            bind_logits, bind_labels = filter_nans(output[i], target[i])
-            loss = loss + loss_fn(bind_logits, bind_labels)
-            counts = counts + bind_labels.numel()
+        loss = torch.nn.BCELoss(output,target)
+        # for i in range(len(output)):
+        #     pos_weights, _ = filter_nans(self.pos_weights, target[i])
+        #     loss_fn = torch.nn.BCEWithLogitsLoss(
+        #         pos_weight=pos_weights, reduction="sum"
+        #     )
+        #     bind_logits, bind_labels = filter_nans(output[i], target[i])
+        #     loss = loss + loss_fn(bind_logits, bind_labels)
+        #     counts = counts + bind_labels.numel()
 
-        counts = 1 if counts == 0 else counts
-        loss = loss / counts
+        # counts = 1 if counts == 0 else counts
+        # loss = loss / counts
 
         return loss
 
