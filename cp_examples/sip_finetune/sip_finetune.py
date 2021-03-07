@@ -190,7 +190,7 @@ class SipModule(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         # forward pass
-        print(batch)
+        print(batch.shape)
         output = self(batch["image"])
         target = batch["labels"]
 
