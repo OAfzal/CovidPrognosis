@@ -167,8 +167,8 @@ class SipModule(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         # forward pass
-        output = self(batch["image"])
-        target = batch["labels"]
+        output = self(batch[0])
+        target = batch[1]
 
         # calculate loss
         loss_val = self.loss(output, target)
@@ -190,9 +190,8 @@ class SipModule(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         # forward pass
-        print(batch)
-        output = self(batch["image"])
-        target = batch["labels"]
+        output = self(batch[0])
+        target = batch[1]
 
         # calculate loss
         loss_val = self.loss(output, target)
