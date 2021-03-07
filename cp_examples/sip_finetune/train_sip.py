@@ -183,6 +183,7 @@ def cli_main(args):
     #     nan_label=args.nan_label,
     # )
     pos_weights = None
+    print(args.val_pathology_list)
     model = SipModule(
         arch=args.arch,
         num_classes=len(data_module.label_list),
