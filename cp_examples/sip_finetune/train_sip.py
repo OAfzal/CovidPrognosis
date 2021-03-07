@@ -78,7 +78,7 @@ def build_args(arg_defaults=None):
         else:
             raise ValueError("Unrecognized path config.")
 
-        args.valid_pathology_list = ["COVID19","NORMAL","PNEUMONIA"]
+        args.val_pathology_list = ["COVID19","NORMAL","PNEUMONIA"]
 
     # if args.dataset_name in ("chexpert", "mimic", "mimic-chexpert"):
     #     args.val_pathology_list = [
