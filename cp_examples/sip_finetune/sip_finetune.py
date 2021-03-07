@@ -151,7 +151,8 @@ class SipModule(pl.LightningModule):
     def loss(self, output, target):
         counts = 0
         loss = 0
-        loss = torch.nn.BCELoss(output,target)
+        loss = torch.nn.BCELoss()
+        loss_num = loss(output,target)
         # for i in range(len(output)):
         #     pos_weights, _ = filter_nans(self.pos_weights, target[i])
         #     loss_fn = torch.nn.BCEWithLogitsLoss(
@@ -164,7 +165,7 @@ class SipModule(pl.LightningModule):
         # counts = 1 if counts == 0 else counts
         # loss = loss / counts
 
-        return loss
+        return loss_num
 
     def training_step(self, batch, batch_idx):
         # forward pass
