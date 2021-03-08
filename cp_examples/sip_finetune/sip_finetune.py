@@ -149,8 +149,8 @@ class SipModule(pl.LightningModule):
         return self.model(image)
 
     def loss(self, output, target):
-        # counts = 0
-        # loss = 0
+        counts = 0
+        loss = 0
         # loss = torch.nn.BCELoss()
 
         # output = torch.topk(output,1,1)
