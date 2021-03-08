@@ -131,9 +131,9 @@ class SipModule(pl.LightningModule):
         self.register_buffer("pos_weights", pos_weights)
         print(self.pos_weights)
 
-        print(self.val_pathology_list)
+        print(self.val_pathology_list,"Hello")
 
-        print(self.model)
+        # print(self.model)
 
         # metrics
         self.train_acc = torch.nn.ModuleList(
