@@ -184,6 +184,7 @@ class SipModule(pl.LightningModule):
         # metrics
         self.log("train_metrics/loss", loss_val)
         for i, path in enumerate(self.val_pathology_list):
+            print(path)
             j = self.label_list.index(path)
             logits, labels = filter_nans(output[:, j], target[:, j])
             self.train_acc[i](logits, labels)
