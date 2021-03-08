@@ -162,6 +162,7 @@ class SipModule(pl.LightningModule):
                 pos_weight=pos_weights, reduction="sum"
             )
             bind_logits, bind_labels = filter_nans(output[i], target[i])
+            print("\n",bind_logits,bind_labels)
             loss = loss + loss_fn(bind_logits, bind_labels)
             counts = counts + bind_labels.numel()
 
