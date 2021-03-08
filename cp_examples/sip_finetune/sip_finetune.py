@@ -181,6 +181,9 @@ class SipModule(pl.LightningModule):
         # calculate loss
         loss_val = self.loss(output, target)
 
+        print(output)
+        print("\n",target)
+
         # metrics
         self.log("train_metrics/loss", loss_val)
         for i, path in enumerate(self.val_pathology_list):
