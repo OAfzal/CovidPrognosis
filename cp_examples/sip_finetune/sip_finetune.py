@@ -152,7 +152,7 @@ class SipModule(pl.LightningModule):
         counts = 0
         loss = 0
         loss = torch.nn.CrossEntropyLoss()
-        output = torch.topk(output,1,1)
+        # output = torch.topk(output,1,1)
         loss_num = loss(output,target)
         print(loss_num)
 
