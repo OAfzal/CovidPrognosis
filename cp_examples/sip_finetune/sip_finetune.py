@@ -149,25 +149,26 @@ class SipModule(pl.LightningModule):
         return self.model(image)
 
     def loss(self, output, target):
-        counts = 0
-        loss = 0
-        loss = torch.nn.BCELoss()
-        output = torch.argmax(output,1)
-        print(output)
-        loss_num = loss(output,target)
-        # for i in range(len(output)):
-        #     pos_weights, _ = filter_nans(self.pos_weights, target[i])
-        #     loss_fn = torch.nn.BCEWithLogitsLoss(
-        #         pos_weight=pos_weights, reduction="sum"
-        #     )
-        #     bind_logits, bind_labels = filter_nans(output[i], target[i])
-        #     loss = loss + loss_fn(bind_logits, bind_labels)
-        #     counts = counts + bind_labels.numel()
+        # counts = 0
+        # loss = 0
+        # loss = torch.nn.BCELoss()
 
-        # counts = 1 if counts == 0 else counts
-        # loss = loss / counts
+        # output = torch.topk(output,1,1)
+        # print(output)
+        # loss_num = loss(output,target)
+        for i in range(len(output)):
+            pos_weights, _ = filter_nans(self.pos_weights, target[i])
+            loss_fn = torch.nn.BCEWithLogitsLoss(
+                pos_weight=pos_weights, reduction="sum"
+            )
+            bind_logits, bind_labels = filter_nans(output[i], target[i])
+            loss = loss + loss_fn(bind_logits, bind_labels)
+            counts = counts + bind_labels.numel()
 
-        return loss_num
+        counts = 1 if counts == 0 else counts
+        loss = loss / counts
+
+        return loss
 
     def training_step(self, batch, batch_idx):
         # forward pass
