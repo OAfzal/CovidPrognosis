@@ -133,6 +133,8 @@ class SipModule(pl.LightningModule):
 
         print(self.val_pathology_list)
 
+        print(self.model)
+
         # metrics
         self.train_acc = torch.nn.ModuleList(
             [pl.metrics.Accuracy() for _ in self.val_pathology_list]
